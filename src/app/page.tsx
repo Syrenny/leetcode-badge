@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
 export default function Home() {
-  return redirect("https://github.com/Syrenny/leetcode-badge");
+    return redirect("https://github.com/Syrenny/leetcode-badge");
 }

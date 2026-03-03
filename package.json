@@ -6,11 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx}\"",
+    "test": "vitest run"
   },
   "dependencies": {
-    "@prisma/client": "5.10.2",
     "@svgdotjs/svg.js": "^3.2.0",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.36.3",
     "leetcode-query": "^1.1.0",
     "next": "14.1.2",
     "react": "^18",
@@ -24,7 +28,9 @@
     "@types/svgdom": "^0.1.2",
     "eslint": "^8",
     "eslint-config-next": "14.1.2",
-    "prisma": "^5.10.2",
-    "typescript": "^5"
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.1",
+    "typescript": "^5",
+    "vitest": "^4.0.18"
   }
 }
