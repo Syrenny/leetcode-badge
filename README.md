@@ -23,7 +23,7 @@ Powered by:
 
 Example:
 
-![LeetCode stats light](https://leetcode-badge-seven.vercel.app/badge/dmytrobaida?bgColor=fff)
+![LeetCode stats light](https://leetcode-badge-seven.vercel.app/badge/syrenny?bgColor=fff)
 
 ---
 
@@ -35,7 +35,7 @@ Example:
 
 Example:
 
-![LeetCode stats dark](https://leetcode-badge-seven.vercel.app/badge/dmytrobaida?theme=dark\&bgColor=282828)
+![LeetCode stats dark](https://leetcode-badge-seven.vercel.app/badge/syrenny?theme=dark\&bgColor=282828)
 
 ---
 
@@ -47,7 +47,7 @@ Example:
 
 Example:
 
-![LeetCode stats neutral](https://leetcode-badge-seven.vercel.app/badge/dmytrobaida?theme=neutral)
+![LeetCode stats neutral](https://leetcode-badge-seven.vercel.app/badge/syrenny?theme=neutral)
 
 ---
 
