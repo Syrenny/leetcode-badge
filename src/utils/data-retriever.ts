@@ -1,14 +1,23 @@
 import { PrismaClient } from "@prisma/client";
 
-import { getUserDataLegacy } from "./user-data/get-user-data-legacy";
+import { getUserData } from "./user-data/get-user-data";
 import { RenderSvgOptions } from "./types";
 
 const prisma = new PrismaClient();
 
 export async function retrieveUserData(user: string) {
-  const { data, success } = await getUserDataLegacy(user);
+  let success = false;
+  let data: RenderSvgOptions["data"] | null = null;
 
-  if (success) {
+  try {
+    const response = await getUserData(user);
+    success = response.success;
+    data = response.data;
+  } catch (error) {
+    console.error("Failed to fetch user data", error);
+  }
+
+  if (success && data != null) {
     console.log("Creating or updating cache value");
 
     // create or update cache

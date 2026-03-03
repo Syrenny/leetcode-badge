@@ -1,51 +1,82 @@
 # LeetCode Badge
 
-Add your LeetCode statistics badge to any GitHub page or profile!
+Add your LeetCode statistics badge to any GitHub page or profile.
 
-## Themes
+Powered by:
+[https://leetcode-badge-seven.vercel.app/](https://leetcode-badge-seven.vercel.app/)
 
-Supported themes
+---
 
-- Light (default)
-- Dark
-- Neutral
+## Available Themes
 
-### Light
+* Light (default)
+* Dark
+* Neutral
 
-```markdown
-![Dmytro Baida's LeetCode stats light](https://leetcode-badge-sage.vercel.app/badge/dmytrobaida?bgColor=fff)
-```
+---
 
-![Dmytro Baida's LeetCode stats light](https://leetcode-badge-sage.vercel.app/badge/dmytrobaida?bgColor=fff)
-
-### Dark
+## Light
 
 ```markdown
-![Dmytro Baida's LeetCode stats dark](https://leetcode-badge-sage.vercel.app/badge/dmytrobaida?theme=dark&bgColor=282828)
+![Your LeetCode stats](https://leetcode-badge-seven.vercel.app/badge/syrenny?bgColor=fff)
 ```
 
-![Dmytro Baida's LeetCode stats dark](https://leetcode-badge-sage.vercel.app/badge/dmytrobaida?theme=dark&bgColor=282828)
+Example:
 
-### Neutral
+![LeetCode stats light](https://leetcode-badge-seven.vercel.app/badge/dmytrobaida?bgColor=fff)
+
+---
+
+## Dark
 
 ```markdown
-![Dmytro Baida's LeetCode stats neutral](https://leetcode-badge-sage.vercel.app/badge/dmytrobaida?theme=neutral)
+![Your LeetCode stats](https://leetcode-badge-seven.vercel.app/badge/syrenny?theme=dark&bgColor=282828)
 ```
 
-![Dmytro Baida's LeetCode stats neutral](https://leetcode-badge-sage.vercel.app/badge/dmytrobaida?theme=neutral)
+Example:
 
-## How to add
+![LeetCode stats dark](https://leetcode-badge-seven.vercel.app/badge/dmytrobaida?theme=dark\&bgColor=282828)
 
-To add statistics widget to any md file simply copy and adjust this code
+---
+
+## Neutral
 
 ```markdown
-![Enter some description](https://leetcode-badge-sage.vercel.app/badge/{your_leetcode_username}?theme={light|dark|neutral}&bgColor={hex_val})
+![Your LeetCode stats](https://leetcode-badge-seven.vercel.app/badge/syrenny?theme=neutral)
 ```
 
-## How to set background color
+Example:
 
-To set background color you can add bgColor in url
+![LeetCode stats neutral](https://leetcode-badge-seven.vercel.app/badge/dmytrobaida?theme=neutral)
 
-**Important!**
+---
 
-Use hex value without #. It will not work with #
+## How to use
+
+Add the following line to any Markdown file:
+
+```markdown
+![Description](https://leetcode-badge-seven.vercel.app/badge/syrenny?theme={light|dark|neutral}&bgColor={hex})
+```
+
+---
+
+## Background Color
+
+You can customize the background color with:
+
+```
+bgColor=<hex_value>
+```
+
+⚠️ Important:
+
+* Do not include `#`
+* Use hex value only (e.g. `ffffff`, `282828`)
+
+---
+
+## Attribution
+
+This project is a fork of the original
+[https://github.com/dmytrobaida/leetcode-badge](https://github.com/dmytrobaida/leetcode-badge)
