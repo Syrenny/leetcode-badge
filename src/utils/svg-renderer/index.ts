@@ -1,3 +1,4 @@
+import path from "path";
 import { createSVGWindow } from "svgdom";
 import { SVG, G, registerWindow } from "@svgdotjs/svg.js";
 
@@ -7,6 +8,16 @@ import { drawDifficultyProgress } from "./difficulty";
 
 const window = createSVGWindow();
 registerWindow(window, window.document);
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const svgdomConfig = require("svgdom");
+const fontsDir = path.join(
+    path.dirname(require.resolve("svgdom/main-module.js")),
+    "fonts",
+);
+svgdomConfig.setFontDir(fontsDir);
+svgdomConfig.setFontFamilyMappings({ "sans-serif": "OpenSans-Regular.ttf" });
+svgdomConfig.preloadFonts();
 
 export function renderSvg(options: RenderSvgOptions) {
     const { data, theme, bgColor } = options;
