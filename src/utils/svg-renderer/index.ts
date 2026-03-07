@@ -1,5 +1,7 @@
 import path from "path";
-import { createSVGWindow } from "svgdom";
+import { createRequire } from "module";
+// @ts-expect-error: svgdom types don't include config exports
+import { createSVGWindow, setFontDir, setFontFamilyMappings, preloadFonts } from "svgdom";
 import { SVG, G, registerWindow } from "@svgdotjs/svg.js";
 
 import { RenderSvgOptions } from "../types";
@@ -9,15 +11,11 @@ import { drawDifficultyProgress } from "./difficulty";
 const window = createSVGWindow();
 registerWindow(window, window.document);
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const svgdomConfig = require("svgdom");
-const fontsDir = path.join(
-    path.dirname(require.resolve("svgdom/main-module.js")),
-    "fonts",
-);
-svgdomConfig.setFontDir(fontsDir);
-svgdomConfig.setFontFamilyMappings({ "sans-serif": "OpenSans-Regular.ttf" });
-svgdomConfig.preloadFonts();
+const require_ = createRequire(import.meta.url);
+const fontsDir = path.join(path.dirname(require_.resolve("svgdom")), "fonts");
+setFontDir(fontsDir);
+setFontFamilyMappings({ "sans-serif": "OpenSans-Regular.ttf" });
+preloadFonts();
 
 export function renderSvg(options: RenderSvgOptions) {
     const { data, theme, bgColor } = options;
