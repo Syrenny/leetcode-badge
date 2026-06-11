@@ -2,8 +2,32 @@ import { LeetCode } from "leetcode-query";
 
 import { GetUserDataResponse } from "./types";
 
+const LEETCODE_REQUEST_TIMEOUT_MS = 8000;
+
+function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T> {
+    return new Promise<T>((resolve, reject) => {
+        const timeoutId = setTimeout(() => {
+            reject(new Error(`LeetCode request timed out after ${timeoutMs}ms`));
+        }, timeoutMs);
+
+        promise.then(
+            (value) => {
+                clearTimeout(timeoutId);
+                resolve(value);
+            },
+            (error) => {
+                clearTimeout(timeoutId);
+                reject(error);
+            },
+        );
+    });
+}
+
 export async function getUserData(user: string): Promise<GetUserDataResponse> {
-    const profile = await new LeetCode().user(user);
+    const profile = await withTimeout(
+        new LeetCode().user(user),
+        LEETCODE_REQUEST_TIMEOUT_MS,
+    );
 
     if (!profile.matchedUser || !profile.allQuestionsCount) {
         return { data: null, success: false };

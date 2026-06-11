@@ -11,6 +11,7 @@ vi.mock("leetcode-query", () => ({
 import { getUserData } from "./get-user-data";
 
 beforeEach(() => {
+    vi.useRealTimers();
     mockUser.mockReset();
 });
 
@@ -104,5 +105,19 @@ describe("getUserData", () => {
         expect(result.success).toBe(true);
         expect(result.data).not.toBeNull();
         expect(result.data!.totalSolved).toBe(-1);
+    });
+
+    it("times out if LeetCode request never resolves", async () => {
+        vi.useFakeTimers();
+        mockUser.mockImplementation(() => new Promise(() => {}));
+
+        const resultPromise = getUserData("slow-user");
+        const assertion = expect(resultPromise).rejects.toThrow(
+            "LeetCode request timed out after 8000ms",
+        );
+
+        await vi.advanceTimersByTimeAsync(8000);
+
+        await assertion;
     });
 });
