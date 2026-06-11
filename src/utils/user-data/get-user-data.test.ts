@@ -1,32 +1,34 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-
-const mockUser = vi.fn();
-
-vi.mock("leetcode-query", () => ({
-    LeetCode: class {
-        user = mockUser;
-    },
-}));
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { getUserData } from "./get-user-data";
 
+const mockFetch = vi.fn();
+
 beforeEach(() => {
     vi.useRealTimers();
-    mockUser.mockReset();
+    mockFetch.mockReset();
+    vi.stubGlobal("fetch", mockFetch);
 });
 
-function mockLeetCodeUser(data: unknown) {
-    mockUser.mockResolvedValue(data);
+afterEach(() => {
+    vi.unstubAllGlobals();
+});
+
+function mockLeetCodeResponse(data: unknown) {
+    mockFetch.mockResolvedValue({
+        ok: true,
+        json: vi.fn().mockResolvedValue({ data }),
+    });
 }
 
 const validProfile = {
     matchedUser: {
         submitStats: {
             acSubmissionNum: [
-                { difficulty: "All", count: 150 },
-                { difficulty: "Easy", count: 50 },
-                { difficulty: "Medium", count: 70 },
-                { difficulty: "Hard", count: 30 },
+                { difficulty: "All", count: 150, submissions: 200 },
+                { difficulty: "Easy", count: 50, submissions: 70 },
+                { difficulty: "Medium", count: 70, submissions: 95 },
+                { difficulty: "Hard", count: 30, submissions: 35 },
             ],
         },
     },
@@ -40,7 +42,7 @@ const validProfile = {
 
 describe("getUserData", () => {
     it("returns data for a valid user", async () => {
-        mockLeetCodeUser(validProfile);
+        mockLeetCodeResponse(validProfile);
 
         const result = await getUserData("valid-user");
 
@@ -58,7 +60,7 @@ describe("getUserData", () => {
     });
 
     it("handles matchedUser being null (non-existent user) without throwing", async () => {
-        mockLeetCodeUser({
+        mockLeetCodeResponse({
             matchedUser: null,
             allQuestionsCount: validProfile.allQuestionsCount,
         });
@@ -70,7 +72,7 @@ describe("getUserData", () => {
     });
 
     it("handles allQuestionsCount being null/undefined without throwing", async () => {
-        mockLeetCodeUser({
+        mockLeetCodeResponse({
             matchedUser: validProfile.matchedUser,
             allQuestionsCount: null,
         });
@@ -82,7 +84,7 @@ describe("getUserData", () => {
     });
 
     it("handles both matchedUser and allQuestionsCount being null", async () => {
-        mockLeetCodeUser({
+        mockLeetCodeResponse({
             matchedUser: null,
             allQuestionsCount: null,
         });
@@ -94,14 +96,13 @@ describe("getUserData", () => {
     });
 
     it("handles submitStats being null inside matchedUser", async () => {
-        mockLeetCodeUser({
+        mockLeetCodeResponse({
             matchedUser: { submitStats: null },
             allQuestionsCount: validProfile.allQuestionsCount,
         });
 
         const result = await getUserData("no-submissions");
 
-        // Should still succeed — user exists, just has no submissions
         expect(result.success).toBe(true);
         expect(result.data).not.toBeNull();
         expect(result.data!.totalSolved).toBe(-1);
@@ -109,7 +110,7 @@ describe("getUserData", () => {
 
     it("times out if LeetCode request never resolves", async () => {
         vi.useFakeTimers();
-        mockUser.mockImplementation(() => new Promise(() => {}));
+        mockFetch.mockImplementation(() => new Promise(() => {}));
 
         const resultPromise = getUserData("slow-user");
         const assertion = expect(resultPromise).rejects.toThrow(
